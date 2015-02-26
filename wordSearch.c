@@ -4,12 +4,17 @@
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 //LARRY CODE HERE:
 
 
 
 =======
 //CODE FOR SOMEONE: 
+=======
+//LARRY CODE HERE: 
+// Test Git
+>>>>>>> parent of ee09fd3... Update wordSearch.c
 =======
 //LARRY CODE HERE: 
 // Test Git
@@ -208,11 +213,14 @@ void reverseString(int length, char reverse[length])
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 void createMatrix (int n, char words[n][n+1], int numWords, int wordCoordinates[numWords][3], char grid[n][n+1]){
 
 	int usedRows[n];		//keeps track of the rows occupied by a word
 =======
 //CARTER AND PAUL
+=======
+>>>>>>> parent of ee09fd3... Update wordSearch.c
 =======
 >>>>>>> parent of ee09fd3... Update wordSearch.c
 void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinates[numWords][3], char grid[n][n+1]){
@@ -268,6 +276,7 @@ void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinat
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 //PAUL/CARTER/ANNIE/OTHER?
 int main(){
 
@@ -294,6 +303,9 @@ int main(){
 
 =======
 //CODE FOR SOMEONE  
+=======
+//PAUL/CARTER/ANNIE/OTHER? 
+>>>>>>> parent of ee09fd3... Update wordSearch.c
 =======
 //PAUL/CARTER/ANNIE/OTHER? 
 >>>>>>> parent of ee09fd3... Update wordSearch.c
