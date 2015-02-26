@@ -3,12 +3,17 @@
 #include <string.h>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //LARRY CODE HERE:
 
 
 
 =======
 //CODE FOR SOMEONE: 
+=======
+//LARRY CODE HERE: 
+// Test Git
+>>>>>>> parent of ee09fd3... Update wordSearch.c
 void getWords(int size,int numWords,char *words[numWords]) {
 	int usedWords[numWords]; //so we don't get repeats when selecting random words
 	memset (usedWords, -1, sizeof(usedWords));   //set array to -1s
@@ -89,7 +94,7 @@ void printGrid(int size, char grid[size][size+1]) {
 	}
 }
 
-//ANNIE
+//LARRY
 void printKey(int numWords, int n, char *words[numWords]){
 	int i;
 	printf("\nWORD KEY:\n");
@@ -192,7 +197,6 @@ void playGame(int numWords, int n, int wordCoordinates[numWords][3], char *words
 	}
 }
 
-//CODE FOR SOMEONE: 
 void reverseString(int length, char reverse[length])
 {
     char temp [length];
@@ -203,11 +207,14 @@ void reverseString(int length, char reverse[length])
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 void createMatrix (int n, char words[n][n+1], int numWords, int wordCoordinates[numWords][3], char grid[n][n+1]){
 
 	int usedRows[n];		//keeps track of the rows occupied by a word
 =======
 //CARTER AND PAUL
+=======
+>>>>>>> parent of ee09fd3... Update wordSearch.c
 void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinates[numWords][3], char grid[n][n+1]){
 	
 	int usedRows[n];		//keeps track of the rows occupied by a word 
@@ -260,6 +267,7 @@ void createMatrix (int n, int numWords, char *words[numWords], int wordCoordinat
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 //PAUL/CARTER/ANNIE/OTHER?
 int main(){
 
@@ -286,6 +294,9 @@ int main(){
 
 =======
 //CODE FOR SOMEONE  
+=======
+//PAUL/CARTER/ANNIE/OTHER? 
+>>>>>>> parent of ee09fd3... Update wordSearch.c
 int main(){
 	int n = getSize();
 	int numWords = n/2;
