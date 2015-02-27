@@ -13,6 +13,7 @@
 	.file	"project1.c"
 	.section	.rodata
 	.align	2
+@playAgain Function by Annie
 .LC0:
 	.ascii	"Would you like to play again?(y/n) \000"
 	.align	2
@@ -31,53 +32,53 @@
 playAgain:
 	@ args = 0, pretend = 0, frame = 8
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
-	sub	sp, sp, #8
-	ldr	r3, .L6
+	stmfd	sp!, {fp, lr}                      @save old frame pointer on stack
+	add	fp, sp, #4                         @create new fp to restore space
+	sub	sp, sp, #8                         @reserve space for local vars and copies of params
+	ldr	r3, .L6                            @printf("Would you like to play again?(y/n) "
 	mov	r0, r3
-	bl	printf
-	ldr	r2, .L6+4
+	bl	printf                             @)
+	ldr	r2, .L6+4                          @int result = scanf("%c\n", &input
 	sub	r3, fp, #9
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-8]
-	ldr	r3, [fp, #-8]
+	str	r0, [fp, #-8]                      @)
+	ldr	r3, [fp, #-8]                      @if (result != 1
 	cmp	r3, #1
-	beq	.L2
-	ldr	r0, .L6+8
-	bl	puts
-	mov	r0, #1
+	beq	.L2                                @){
+	ldr	r0, .L6+8                          @printf("Incorrect input, exiting.\n"
+	bl	puts                               @)
+	mov	r0, #1                             @exit program
 	bl	exit
 .L2:
-	ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+	ldrb	r3, [fp, #-9]	@ zero_extendqisi2 @if (input == 'y'
 	cmp	r3, #121
-	bne	.L3
-	mov	r3, #1
+	bne	.L3                                @)
+	mov	r3, #1                             @return 1
 	b	.L4
 .L3:
-	ldrb	r3, [fp, #-9]	@ zero_extendqisi2
+	ldrb	r3, [fp, #-9]	@ zero_extendqisi2 @else if (input == 'n')
 	cmp	r3, #110
 	bne	.L5
-	mov	r3, #0
-	b	.L4
+	mov	r3, #0                             @)
+	b	.L4                                @return 0
 .L5:
-	ldr	r0, .L6+12
-	bl	puts
-	bl	playAgain
+	ldr	r0, .L6+12                         @printf("Incorrect input. \n"
+	bl	puts                               @)
+	bl	playAgain                          @return playAgain();
 	mov	r3, r0
 .L4:
-	mov	r0, r3
+	mov	r0, r3                             @exit program
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
 .L7:
 	.align	2
 .L6:
-	.word	.LC0
-	.word	.LC1
-	.word	.LC2
-	.word	.LC3
+	.word	.LC0                               @"Would you like to play again?(y/n) \000"
+	.word	.LC1                               @"%c\012\000"
+	.word	.LC2                               @"Incorrect input, exiting.\000"
+	.word	.LC3                               @"Incorrect input. \000"
 	.size	playAgain, .-playAgain
 	.section	.rodata
 	.align	2
@@ -996,64 +997,64 @@ getSize:
 getNumWords:
 	@ args = 0, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
-	sub	sp, sp, #16
-	str	r0, [fp, #-16]
-	str	r1, [fp, #-20]
-	mov	r3, #0
+	stmfd	sp!, {fp, lr}                      @save old frame pointer on stack
+	add	fp, sp, #4                         @create new fp to restore space
+	sub	sp, sp, #16                        @reserve space for local vars and copies of params
+	str	r0, [fp, #-16]                     @copy param "min" to stack
+	str	r1, [fp, #-20]                     @copy param "max" to stack
+	mov	r3, #0                             @int size = 0;
 	str	r3, [fp, #-12]
-	ldr	r3, .L34
+	ldr	r3, .L34                           @printf("Enter the number of words you wish to search for between %d and %d: ",
 	mov	r0, r3
-	ldr	r1, [fp, #-16]
-	ldr	r2, [fp, #-20]
-	bl	printf
+	ldr	r1, [fp, #-16]                     @min,
+	ldr	r2, [fp, #-20]                     @max
+	bl	printf                             @)
 	ldr	r2, .L34+4
-	sub	r3, fp, #12
+	sub	r3, fp, #12                        @int result = scanf("%d", &size
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-8]
-	ldr	r3, [fp, #-8]
+	str	r0, [fp, #-8]                      @)
+	ldr	r3, [fp, #-8]                      @if (result != 1){
 	cmp	r3, #1
-	beq	.L33
-	ldr	r0, .L34+8
-	bl	puts
-	mov	r0, #1
+	beq	.L33                               @)
+	ldr	r0, .L34+8                         @printf("Incorrect input, exiting…\n"
+	bl	puts                               @)
+	mov	r0, #1                             @ exit program
 	bl	exit
 .L32:
-	ldr	r3, .L34+12
+	ldr	r3, .L34+12                        @printf("Input error (number not in range), please try again: "
 	mov	r0, r3
-	bl	printf
-	ldr	r2, .L34+4
+	bl	printf                             @)
+	ldr	r2, .L34+4                         @result = scanf("%d", &size
 	sub	r3, fp, #12
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
-	str	r0, [fp, #-8]
+	str	r0, [fp, #-8]                      @)
 	b	.L31
 .L33:
 	mov	r0, r0	@ nop
 .L31:
-	ldr	r2, [fp, #-12]
+	ldr	r2, [fp, #-12]                     @(while (size < min || size > max
 	ldr	r3, [fp, #-16]
 	cmp	r2, r3
 	blt	.L32
 	ldr	r2, [fp, #-12]
 	ldr	r3, [fp, #-20]
 	cmp	r2, r3
-	bgt	.L32
-	ldr	r3, [fp, #-12]
-	mov	r0, r3
+	bgt	.L32                               @){
+	ldr	r3, [fp, #-12]                     @return size;
+	mov	r0, r3                             @}
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
 .L35:
 	.align	2
 .L34:
-	.word	.LC113
-	.word	.LC109
-	.word	.LC114
-	.word	.LC115
+	.word	.LC113                             @"Enter the number of words you wish to search for between %d and %d: \000"
+	.word	.LC109                             @"Incorrect input, exiting\342\200\246\000"
+	.word	.LC114                             @"Incorrect input, exiting\342\200\246\000"
+	.word	.LC115                             @"Input error (number not in range), please try again \000"
 	.size	getNumWords, .-getNumWords
 	.section	.rodata
 	.align	2
