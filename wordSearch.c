@@ -79,6 +79,11 @@ void getWords(int size,int numWords,char *words[numWords]) {
 }
 
 //ANNIE
+/*
+   getSize Function:
+   user input the size of a matrix between 10-20
+   For this input data, we can generate the amount of word into the matrix
+ */
 int getSize(){
   int size = 0; 
   printf("Enter a matrix size between 10-20: ");
@@ -129,6 +134,10 @@ void printGrid(int size, char grid[size][size+1]) {
 }
 
 //ANNIE
+/*
+  printKey Function:
+  print out the random select words as key for user to search in matrix
+ */
 void printKey(int numWords, int n, char *words[numWords]){
   int i;
   printf("\nWORD KEY:\n");
@@ -139,6 +148,10 @@ void printKey(int numWords, int n, char *words[numWords]){
 }
 
 //NEW FUNCTION FOR SOMEONE
+/*
+  checkFinished Function:
+  when the words is all found and exit
+ */
 int checkWordsRemain(int numWords, int wordCoordinates[numWords][3]){
   int wordNum = 0; 
   printf("Please enter the word number you want to check (0 to exit): "); 
