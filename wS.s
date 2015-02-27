@@ -923,58 +923,58 @@ getWords:
 getSize:
 	@ args = 0, pretend = 0, frame = 8
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
-	sub	sp, sp, #8
-	mov	r3, #0
-	str	r3, [fp, #-12]
-	ldr	r3, .L27
+	stmfd	sp!, {fp, lr}                      @save old frame pointer on stack
+	add	fp, sp, #4                         @create new fp to restore space
+	sub	sp, sp, #8                         @reserve space for local vars and copies of params
+	mov	r3, #0                             @int size = 0
+	str	r3, [fp, #-12]                     @given space for integer
+	ldr	r3, .L27                           @printf("Enter a matrix size between 10-20: "
 	mov	r0, r3
-	bl	printf
-	ldr	r2, .L27+4
+	bl	printf                             @)
+	ldr	r2, .L27+4                         @int result = scanf("%d", &size)
 	sub	r3, fp, #12
 	mov	r0, r2
 	mov	r1, r3
-	bl	__isoc99_scanf
+	bl	__isoc99_scanf                     @)
 	str	r0, [fp, #-8]
-	ldr	r3, [fp, #-8]
+	ldr	r3, [fp, #-8]                      @if (result!=1
 	cmp	r3, #1
-	beq	.L26
-	ldr	r0, .L27+8
-	bl	puts
-	mov	r0, #1
+	beq	.L26                               @)
+	ldr	r0, .L27+8                         @printf("Incorrect input, exiting...\n"
+	bl	puts                               @)
+	mov	r0, #1                             @exit program
 	bl	exit
 .L25:
-	ldr	r3, .L27+12
+	ldr	r3, .L27+12                        @printf("Input error, please try again: "
 	mov	r0, r3
-	bl	printf
-	ldr	r2, .L27+16
+	bl	printf                             @)
+	ldr	r2, .L27+16                        @result = scanf("%d", &size
 	sub	r3, fp, #12
 	mov	r0, r2
 	mov	r1, r3
 	bl	__isoc99_scanf
 	str	r0, [fp, #-8]
-	b	.L24
+	b	.L24                               @)
 .L26:
 	mov	r0, r0	@ nop
 .L24:
-	ldr	r3, [fp, #-12]
+	ldr	r3, [fp, #-12]                     @while (size < 10 || size > 20) {
 	cmp	r3, #9
-	ble	.L25
-	ldr	r3, [fp, #-12]
+	ble	.L25                               @}
+	ldr	r3, [fp, #-12]                     @return size;
 	cmp	r3, #20
 	bgt	.L25
 	ldr	r3, [fp, #-12]
-	mov	r0, r3
+	mov	r0, r3                             @) exit program
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
 .L28:
 	.align	2
 .L27:
-	.word	.LC108
-	.word	.LC109
-	.word	.LC110
-	.word	.LC111
+	.word	.LC108                            @"Enter a matrix size between 10-20: \000"
+	.word	.LC109                            @"%d\000"
+	.word	.LC110                            @"Incorrect input, exiting...\000"
+	.word	.LC111                            @"Input error, please try again: \000"
 	.word	.LC112
 	.size	getSize, .-getSize
 	.section	.rodata
@@ -1185,41 +1185,41 @@ printGrid:
 printKey:
 	@ args = 0, pretend = 0, frame = 24
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
-	sub	sp, sp, #24
-	str	r0, [fp, #-16]
-	str	r1, [fp, #-20]
-	str	r2, [fp, #-24]
-	ldr	r0, .L48
-	bl	puts
-	mov	r3, #0
-	str	r3, [fp, #-8]
+	stmfd	sp!, {fp, lr}                      @save old frame pointer on stack
+	add	fp, sp, #4                         @create new fp to restore space
+	sub	sp, sp, #24                        @reserve space for local vars and copies of params
+	str	r0, [fp, #-16]                     @copy param "numWords" to stack
+	str	r1, [fp, #-20]                     @copy param "n" to stack
+	str	r2, [fp, #-24]                     @copy param "[numWords]" to stack
+	ldr	r0, .L48                           @printf("\nWORD KEY:\n"
+	bl	puts                               @)
+	mov	r3, #0                             @(for (i = 0;
+	str	r3, [fp, #-8]                      @)
 	b	.L46
 .L47:
-	ldr	r1, .L48+4
-	ldr	r3, [fp, #-8]
-	add	r2, r3, #1
-	ldr	r3, [fp, #-8]
+	ldr	r1, .L48+4                         @add 4 bits of space
+	ldr	r3, [fp, #-8]                      @(i++
+	add	r2, r3, #1                         
+	ldr	r3, [fp, #-8]                      @) comment of for loop condition
 	mov	r3, r3, asl #2
-	ldr	r0, [fp, #-24]
+	ldr	r0, [fp, #-24]                     @printf("%d) %s, ",i+1,words[i]
 	add	r3, r0, r3
 	ldr	r3, [r3, #0]
 	mov	r0, r1
 	mov	r1, r2
 	mov	r2, r3
-	bl	printf
-	ldr	r3, [fp, #-8]
+	bl	printf                             @)
+	ldr	r3, [fp, #-8]                      @i++
 	add	r3, r3, #1
 	str	r3, [fp, #-8]
 .L46:
-	ldr	r3, [fp, #-16]
+	ldr	r3, [fp, #-16]                     @(i< numWords-1
 	sub	r2, r3, #1
 	ldr	r3, [fp, #-8]
-	cmp	r2, r3
-	bgt	.L47
+	cmp	r2, r3               
+	bgt	.L47                               @) comment of for loop condition
 	ldr	r1, .L48+8
-	ldr	r3, [fp, #-8]
+	ldr	r3, [fp, #-8]                      @printf("%d) %s\n\n",i+1,words[numWords-1]
 	add	r2, r3, #1
 	ldr	r3, [fp, #-16]
 	sub	r3, r3, #1
@@ -1230,15 +1230,15 @@ printKey:
 	mov	r0, r1
 	mov	r1, r2
 	mov	r2, r3
-	bl	printf
-	sub	sp, fp, #4
+	bl	printf                             @)
+	sub	sp, fp, #4                         @ end of printKey function
 	ldmfd	sp!, {fp, pc}
 .L49:
 	.align	2
 .L48:
-	.word	.LC120
-	.word	.LC121
-	.word	.LC122
+	.word	.LC120                             @"\012WORD KEY:\000"
+	.word	.LC121                             @"%d) %s, \000"
+	.word	.LC122                             @"%d) %s\012\012\000"
 	.size	printKey, .-printKey
 	.section	.rodata
 	.align	2
@@ -1351,18 +1351,18 @@ checkWordsRemain:
 checkFinished:
 	@ args = 0, pretend = 0, frame = 16
 	@ frame_needed = 1, uses_anonymous_args = 0
-	stmfd	sp!, {fp, lr}
-	add	fp, sp, #4
-	sub	sp, sp, #16
-	str	r0, [fp, #-16]
-	str	r1, [fp, #-20]
+	stmfd	sp!, {fp, lr}                      @save old frame pointer on stack
+	add	fp, sp, #4                         @create new fp to restore space
+	sub	sp, sp, #16                        @reserve space for local vars and copies of params
+	str	r0, [fp, #-16]                     @copy param "numWords" to stack
+	str	r1, [fp, #-20]                     @copy param "wordCoordinates[numWords][3]" to stack
 	mov	r3, #1
-	str	r3, [fp, #-8]
-	mov	r3, #0
+	str	r3, [fp, #-8]                      @int gameDone = 1;
+	mov	r3, #0                             @(for( i = 1;
 	str	r3, [fp, #-12]
-	b	.L58
+	b	.L58                               @)
 .L60:
-	ldr	r2, [fp, #-12]
+	ldr	r2, [fp, #-12]                     @if (wordCoordinates[i][2] == 0
 	mov	r3, r2
 	mov	r3, r3, asl #1
 	add	r3, r3, r2
@@ -1371,32 +1371,32 @@ checkFinished:
 	add	r3, r2, r3
 	ldr	r3, [r3, #8]
 	cmp	r3, #0
-	bne	.L59
-	mov	r3, #0
+	bne	.L59                               @)
+	mov	r3, #0                             @gameDone = 0;
 	str	r3, [fp, #-8]
 .L59:
-	ldr	r3, [fp, #-12]
-	add	r3, r3, #1
-	str	r3, [fp, #-12]
+	ldr	r3, [fp, #-12]                     @(i++
+	add	r3, r3, #1                         
+	str	r3, [fp, #-12]                     @) comment of for loop condition
 .L58:
-	ldr	r2, [fp, #-12]
+	ldr	r2, [fp, #-12]                     @(i<numWords
 	ldr	r3, [fp, #-16]
-	cmp	r2, r3
+	cmp	r2, r3                             @) comment of for loop condition
 	blt	.L60
-	ldr	r3, [fp, #-8]
+	ldr	r3, [fp, #-8]                      @if (gameDone == 1
 	cmp	r3, #1
-	bne	.L61
-	ldr	r0, .L62
-	bl	puts
+	bne	.L61                               @)
+	ldr	r0, .L62                           @printf("YOU WON! Thanks for playing!\n"
+	bl	puts                               @)
 .L61:
-	ldr	r3, [fp, #-8]
-	mov	r0, r3
+	ldr	r3, [fp, #-8]                      @return gameDone
+	mov	r0, r3                             @} exit the function	
 	sub	sp, fp, #4
 	ldmfd	sp!, {fp, pc}
 .L63:
 	.align	2
 .L62:
-	.word	.LC125
+	.word	.LC125                             @"YOU WON! Thanks for playing!\000"
 	.size	checkFinished, .-checkFinished
 	.section	.rodata
 	.align	2
